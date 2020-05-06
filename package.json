@@ -9,6 +9,9 @@
   "keywords": [],
   "license": "MIT",
   "devDependencies": {
-    "serve": "^11.2.0"
-  }
+    "serve": "^11.2.0",
+    "serve-handler": "^6.1.2",
+    "ws": "^7.2.5"
+  },
+  "dependencies": {}
 }
