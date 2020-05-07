@@ -1,20 +1,28 @@
-const handler = require('serve-handler');
 const http = require('http');
+const fs = require('fs');
+const path = require('path');
 const wsServer = require('./ws-server.js');
 
-const httpPort = 81
+const httpPort = 8001
 
-const server = http.createServer((request, response) => {
-  return handler(request, response);
-})
+http.createServer(function (request, response) {
 
-server.listen(httpPort, () => {
-  const parts = server._connectionKey.split(':')
-  const lastPart = parts.pop()
-  const port = lastPart === '0' ? http.globalAgent.defaultPort : lastPart
-  const host = parts.pop() || 'localhost'
-  console.log(`Webserver running on http://${host}:${port}/`)
+    let filePath = '.' + request.url
+    if (filePath == './') {
+        filePath = './index.html'
+    }
 
-  wsServer.startWsServer(8080)
+    const extname = String(path.extname(filePath)).toLowerCase();
+    const mimeTypes = { '.html': 'text/html', '.js': 'text/javascript' }
 
+    const contentType = mimeTypes[extname] || 'application/octet-stream'
+
+    fs.readFile(filePath, function (error, content) {
+        response.writeHead(200, { 'Content-Type': contentType })
+        response.end(content, 'utf-8')
+    })
+
+}).listen(httpPort, () => {
+    console.log(`Webserver running on http://localhost:${httpPort}/`)
+    wsServer.startWsServer(8080)
 })
