@@ -3,6 +3,10 @@
 
 <head>
   <style>
+    #chat {
+      display: none;
+    }
+
     textarea {
       background-color: linen;
       height: 8em;
@@ -11,22 +15,26 @@
   </style>
 
   <meta charset="utf-8" />
-  <title>WebSocket Test</title>
+  <title>WebSocket Test Chat</title>
   <script src="./ws-client.js"></script>
 </head>
 
 <body>
-  <h2>WebSocket Test</h2>
+  <h2>WebSocket Test Chat</h2>
 
-  <button type="button" onclick="init()">Connect</button>
+  <div id="chat">
+    <div>
+      <textarea id="log-box" name="log" readonly></textarea>
+    </div>
 
-  <div>
-    <textarea id="message" name="message" required></textarea>
-    <textarea id="log" name="log" readonly></textarea>
+    <div>
+      <form action="javascript:doSend()">
+        <textarea id="input-box" name="input" required></textarea>
+        <input type="submit" value="Send">
+      </form>
+    </div>
   </div>
-
-  <button type="button" onclick="init()">Send</button>
-
+  <button id="connect" type="button" onclick="init()">Connect</button>
 </body>
 
 </html>

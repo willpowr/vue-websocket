@@ -10,14 +10,14 @@ function startWsServer(wsPort){
   };
   
   wss.on('connection', function connection(ws) {
+    ws.send(`Client connected to ws://localhost:${wsPort}/`)
 
     ws.on('message', function incoming(message) {
       console.log('received: %s', message)
-      ws.send(`Bouncing: ${message}`)
+      ws.send(`${message}`)
   
     })
   
-    ws.send(`Client connected to ws://localhost}:${wsPort}/`)
   })
 }
 
