@@ -1,20 +1,30 @@
 const wsUri = 'ws://localhost:8080/'
+
+let websocket
 let connected = false
 let chat
 let inputBox
 let logBox
 
+function toggleWsConnection() {
+  if(connected) {
+    websocket.close()
+  } else {
+    createWebsocket()
+  }
+  connected = !connected
+}
+
 function init() {
-  connectButton = document.getElementById('connect')  
+  connectButton = document.getElementById('connect')
+  connectButton.addEventListener("click", toggleWsConnection, false);
   chat = document.getElementById('chat')  
   inputBox = document.getElementById('input-box')
   logBox = document.getElementById('log-box')
-  testWebSocket()
+  
 }
 
- 
-
-function testWebSocket() {
+function createWebsocket() {
   websocket = new WebSocket(wsUri)
   websocket.onopen = function (evt) {
     onOpen(evt);
@@ -34,16 +44,12 @@ function onOpen(evt) {
   writeToLog('CONNECTED')
   chat.style.display = 'block'
   connectButton.innerText = 'Disconnect'
-  connected = true
-
 }
 
 function onClose(evt) {
   writeToLog('DISCONNECTED')
   chat.style.disabled = true
   connectButton.innerText = 'Connect'
-  connected = true
-
 }
 
 function onMessage(evt) {
@@ -64,3 +70,5 @@ function doSend() {
 function writeToLog(message) {
   logBox.value += message + '\n'
 }
+
+window.onload = init
