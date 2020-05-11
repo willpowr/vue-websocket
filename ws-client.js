@@ -1,18 +1,13 @@
 const wsUri = 'ws://localhost:8080/'
 
 let websocket
-let connected = false
 let chat
 let inputBox
 let logBox
+let wsIsOpen
 
 function toggleWsConnection() {
-  if(connected) {
-    websocket.close()
-  } else {
-    createWebsocket()
-  }
-  connected = !connected
+  wsIsOpen ? websocket.close() : createWebsocket()
 }
 
 function init() {
@@ -42,19 +37,20 @@ function createWebsocket() {
 
 function onOpen(evt) {
   writeToLog('CONNECTED')
+  wsIsOpen = true
   chat.style.display = 'block'
   connectButton.innerText = 'Disconnect'
 }
 
 function onClose(evt) {
   writeToLog('DISCONNECTED')
+  wsIsOpen = false
   chat.style.disabled = true
   connectButton.innerText = 'Connect'
 }
 
 function onMessage(evt) {
   writeToLog( `⇙ ${evt.data}` )
-  // websocket.close();
 }
 
 function onError(evt) {
