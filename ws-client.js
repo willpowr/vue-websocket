@@ -3,7 +3,6 @@ const wsUri = 'ws://localhost:8080/'
 let websocket
 let chat
 let inputBox
-let logBox
 let log
 let wsIsOpen
 
@@ -14,9 +13,21 @@ function toggleWsConnection() {
 function init() {
   connectButton = document.getElementById('connect')
   connectButton.addEventListener("click", toggleWsConnection, false);
-  chat = document.getElementById('chat')  
+  chat = document.getElementById('chat')
   inputBox = document.getElementById('input-box')
-  logBox = document.getElementById('log-box')
+  
+  // Send message if the user presses enter in the the inputBox field.
+  inputBox.onkeypress = function (e) {
+    if (!e) {
+      e = window.event;
+    }
+    var keyCode = e.keyCode || e.which;
+    if (keyCode == '13') {
+      doSend();
+      return false;
+    }
+  }
+
   log = document.getElementById('log')
 }
 
@@ -37,21 +48,21 @@ function createWebsocket() {
 }
 
 function onOpen(evt) {
-  writeToLog('CONNECTED')
+  writeToLog('Connected to chat')
   wsIsOpen = true
   chat.style.display = 'block'
   connectButton.innerText = 'Disconnect'
 }
 
 function onClose(evt) {
-  writeToLog('DISCONNECTED')
+  writeToLog('This chat session is over!')
   wsIsOpen = false
   chat.style.disabled = true
   connectButton.innerText = 'Connect'
 }
 
 function onMessage(evt) {
-  writeMessage( true, evt.data )
+  writeMessage(true, evt.data)
 }
 
 function onError(evt) {
@@ -60,12 +71,15 @@ function onError(evt) {
 
 function doSend() {
   const message = inputBox.value
-  writeMessage(false, message);
+  writeMessage(false, message)
   websocket.send(message)
+  inputBox.value = ''
 }
 
-function writeToLog(message) {
-  logBox.value += message + '\n'
+function writeToLog(logMessage) {
+  const logItem = document.createElement("p")
+  logItem.innerHTML = logMessage
+  log.appendChild(logItem)
 }
 
 function writeMessage(inbound, message) {
@@ -74,8 +88,8 @@ function writeMessage(inbound, message) {
   let direction = inbound ? "inbound" : "outbound"
   bubble.classList.add(direction)
   bubble.style.wordWrap = "break-word"
-  bubble.innerHTML = message;
-  log.appendChild(bubble);
+  bubble.innerHTML = message
+  log.appendChild(bubble)
 }
 
 window.onload = init

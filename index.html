@@ -7,9 +7,10 @@
       background-color: snow;
       display: none;
       position: relative;
-      border: thin solid black;
+      border: thin solid;
       width: 340px;
       height: 580px;
+      font-family: sans-serif;
     }
 
     #log {
@@ -55,9 +56,6 @@
       margin-top: -8px;
     }
 
-
-
-
     #compose {
       position: absolute;
       bottom: 0px;
@@ -66,9 +64,9 @@
     }
 
     #input-box {
-      background-color: linen;
-      width: 288px;
-      height: 40px;
+      width: 290px;
+      height: 42px;
+      border: none;
       resize: none;
     }
 
@@ -76,6 +74,7 @@
       float: right;
       height: 46px;
       width: 46px;
+      border: none;
     }
   </style>
 
@@ -89,7 +88,6 @@
 
   <div id="chat">
     <div id="log">
-      <textarea id="log-box" name="log" readonly></textarea>
 
     </div>
 
