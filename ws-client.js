@@ -51,7 +51,7 @@ function onClose(evt) {
 }
 
 function onMessage(evt) {
-  writeToLog( `⇙ ${evt.data}` )
+  writeMessage( true, evt.data )
 }
 
 function onError(evt) {
@@ -60,7 +60,7 @@ function onError(evt) {
 
 function doSend() {
   const message = inputBox.value
-  writeToScreen(false, `⇗ ${message}`);
+  writeMessage(false, message);
   websocket.send(message)
 }
 
@@ -68,10 +68,11 @@ function writeToLog(message) {
   logBox.value += message + '\n'
 }
 
-function writeToScreen(inbound, message) {
-  let bubble = document.createElement("div")
-  bubble.className = "bubble"
-  bubble.className += inbound ? " inbound" : "outbound"
+function writeMessage(inbound, message) {
+  const bubble = document.createElement("div")
+  bubble.classList.add("bubble")
+  let direction = inbound ? "inbound" : "outbound"
+  bubble.classList.add(direction)
   bubble.style.wordWrap = "break-word"
   bubble.innerHTML = message;
   log.appendChild(bubble);

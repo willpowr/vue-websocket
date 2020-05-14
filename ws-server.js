@@ -10,11 +10,11 @@ function startWsServer(wsPort){
   };
   
   wss.on('connection', function connection(ws) {
-    ws.send(`Client connected to ws://localhost:${wsPort}/`)
+    ws.send(`Hi, \n Thanks for joining me for a chat. What are you saying?`)
 
     ws.on('message', function incoming(message) {
       console.log('received: %s', message)
-      ws.send(`${message}`)
+      ws.send(`You just said, "${message}"`)
   
     })
   

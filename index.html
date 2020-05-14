@@ -4,6 +4,7 @@
 <head>
   <style>
     #chat {
+      background-color: snow;
       display: none;
       position: relative;
       border: thin solid black;
@@ -16,11 +17,45 @@
     }
 
     .bubble {
-      background-color: lightsteelblue;
+      background-color: lavender;
+      position: relative;
       width: 70%;
       border-radius: 5px;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
+      padding: 6px;
     }
+
+    .bubble:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 12%;
+      width: 0;
+      height: 0;
+      border: 8px solid transparent;
+      border-top-color: lavender;
+      border-bottom: 0;
+      border-left: 0;
+      margin-left: -4px;
+      margin-bottom: -8px;
+    }
+
+    .bubble.inbound {
+      background-color: PaleTurquoise;
+      margin-left: 25%;
+    }
+
+    .bubble.inbound:after {
+      top: 0;
+      left: 88%;
+      border: 8px solid transparent;
+      border-bottom-color: PaleTurquoise;
+      border-top: 0;
+      border-right: 0;
+      margin-top: -8px;
+    }
+
+
 
 
     #compose {
