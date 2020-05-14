@@ -4,6 +4,7 @@ let websocket
 let chat
 let inputBox
 let logBox
+let log
 let wsIsOpen
 
 function toggleWsConnection() {
@@ -16,7 +17,7 @@ function init() {
   chat = document.getElementById('chat')  
   inputBox = document.getElementById('input-box')
   logBox = document.getElementById('log-box')
-  
+  log = document.getElementById('log')
 }
 
 function createWebsocket() {
@@ -59,12 +60,21 @@ function onError(evt) {
 
 function doSend() {
   const message = inputBox.value
-  writeToLog(`⇗ ${message}`);
+  writeToScreen(false, `⇗ ${message}`);
   websocket.send(message)
 }
 
 function writeToLog(message) {
   logBox.value += message + '\n'
+}
+
+function writeToScreen(inbound, message) {
+  let bubble = document.createElement("div")
+  bubble.className = "bubble"
+  bubble.className += inbound ? " inbound" : "outbound"
+  bubble.style.wordWrap = "break-word"
+  bubble.innerHTML = message;
+  log.appendChild(bubble);
 }
 
 window.onload = init

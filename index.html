@@ -5,12 +5,42 @@
   <style>
     #chat {
       display: none;
+      position: relative;
+      border: thin solid black;
+      width: 340px;
+      height: 580px;
     }
 
-    textarea {
+    #log {
+      padding: 12px;
+    }
+
+    .bubble {
+      background-color: lightsteelblue;
+      width: 70%;
+      border-radius: 5px;
+      margin-bottom: 6px;
+    }
+
+
+    #compose {
+      position: absolute;
+      bottom: 0px;
+      width: 100%;
+      height: 46px;
+    }
+
+    #input-box {
       background-color: linen;
-      height: 8em;
-      width: 32em;
+      width: 288px;
+      height: 40px;
+      resize: none;
+    }
+
+    #submit {
+      float: right;
+      height: 46px;
+      width: 46px;
     }
   </style>
 
@@ -23,16 +53,18 @@
   <h2>WebSocket Test Chat</h2>
 
   <div id="chat">
-    <div>
+    <div id="log">
       <textarea id="log-box" name="log" readonly></textarea>
+
     </div>
 
-    <div>
+    <div id="compose">
       <form action="javascript:doSend()">
         <textarea id="input-box" name="input" required></textarea>
-        <input type="submit" value="Send">
+        <input id="submit" type="submit" value="Send">
       </form>
     </div>
+  </div>
   </div>
   <button id="connect" type="button" onclick="init()">Connect</button>
 </body>
