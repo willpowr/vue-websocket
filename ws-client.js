@@ -3,32 +3,52 @@ const wsUri = 'ws://localhost:8080/'
 let websocket
 let chat
 let inputBox
-let log
+let logContent
 let wsIsOpen
+let connectedLed
+let connectButton
+
+function getTimeStamp() {
+  const event = new Date(Date.now());
+  const options = { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'}; 
+  return (event.toLocaleDateString(undefined, options));
+}
+
+function appendLog(element) {
+  logContent.appendChild(element)
+  logContent.scrollTop = logContent.scrollHeight
+}
+
+function toggleConnectedLed() {
+  wsIsOpen ? connectedLed.classList.remove('on') : connectedLed.classList.add('on')
+}
 
 function toggleWsConnection() {
   wsIsOpen ? websocket.close() : createWebsocket()
+  toggleConnectedLed()
 }
 
 function init() {
   connectButton = document.getElementById('connect')
   connectButton.addEventListener("click", toggleWsConnection, false);
+  connectedLed = document.getElementById('connected-led')
+
   chat = document.getElementById('chat')
   inputBox = document.getElementById('input-box')
-  
+
   // Send message if the user presses enter in the the inputBox field.
-  inputBox.onkeypress = function (e) {
+  inputBox.onkeydown = (e) => {
     if (!e) {
       e = window.event;
     }
-    var keyCode = e.keyCode || e.which;
-    if (keyCode == '13') {
+    let keyCode = e.keyCode || e.which;
+    if (keyCode == 13 && !e.shiftKey) {
       doSend();
       return false;
     }
   }
 
-  log = document.getElementById('log')
+  logContent = document.getElementById('log-content')
 }
 
 function createWebsocket() {
@@ -47,15 +67,21 @@ function createWebsocket() {
   }
 }
 
+function resetInput() {
+  inputBox.value = ''
+  inputBox.focus()
+}
+
 function onOpen(evt) {
   writeToLog('Connected to chat')
   wsIsOpen = true
-  chat.style.display = 'block'
+  chat.style.display = 'table'
   connectButton.innerText = 'Disconnect'
+  resetInput()
 }
 
 function onClose(evt) {
-  writeToLog('This chat session is over!')
+  writeToLog('Disconnected')
   wsIsOpen = false
   chat.style.disabled = true
   connectButton.innerText = 'Connect'
@@ -73,13 +99,13 @@ function doSend() {
   const message = inputBox.value
   writeMessage(false, message)
   websocket.send(message)
-  inputBox.value = ''
+  resetInput()
 }
 
 function writeToLog(logMessage) {
   const logItem = document.createElement("p")
-  logItem.innerHTML = logMessage
-  log.appendChild(logItem)
+  logItem.innerHTML = `${logMessage} : ${getTimeStamp()}`
+  appendLog(logItem)
 }
 
 function writeMessage(inbound, message) {
@@ -89,7 +115,7 @@ function writeMessage(inbound, message) {
   bubble.classList.add(direction)
   bubble.style.wordWrap = "break-word"
   bubble.innerHTML = message
-  log.appendChild(bubble)
+  appendLog(bubble)
 }
 
 window.onload = init

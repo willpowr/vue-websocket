@@ -2,104 +2,40 @@
 <html>
 
 <head>
-  <style>
-    #chat {
-      background-color: snow;
-      display: none;
-      position: relative;
-      border: thin solid;
-      width: 340px;
-      height: 580px;
-      font-family: sans-serif;
-    }
-
-    #log {
-      padding: 12px;
-    }
-
-    .bubble {
-      background-color: lavender;
-      position: relative;
-      width: 70%;
-      border-radius: 5px;
-      margin-bottom: 12px;
-      padding: 6px;
-    }
-
-    .bubble:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 12%;
-      width: 0;
-      height: 0;
-      border: 8px solid transparent;
-      border-top-color: lavender;
-      border-bottom: 0;
-      border-left: 0;
-      margin-left: -4px;
-      margin-bottom: -8px;
-    }
-
-    .bubble.inbound {
-      background-color: PaleTurquoise;
-      margin-left: 25%;
-    }
-
-    .bubble.inbound:after {
-      top: 0;
-      left: 88%;
-      border: 8px solid transparent;
-      border-bottom-color: PaleTurquoise;
-      border-top: 0;
-      border-right: 0;
-      margin-top: -8px;
-    }
-
-    #compose {
-      position: absolute;
-      bottom: 0px;
-      width: 100%;
-      height: 46px;
-    }
-
-    #input-box {
-      width: 290px;
-      height: 42px;
-      border: none;
-      resize: none;
-    }
-
-    #submit {
-      float: right;
-      height: 46px;
-      width: 46px;
-      border: none;
-    }
-  </style>
-
+  <link rel="stylesheet" type="text/css" href="styles.css" />
   <meta charset="utf-8" />
   <title>WebSocket Test Chat</title>
   <script src="./ws-client.js"></script>
 </head>
 
 <body>
-  <h2>WebSocket Test Chat</h2>
 
   <div id="chat">
-    <div id="log">
 
+    <div id="app-bar">
+
+      <div class="app-bar-cell" id="connected-status">
+        <div id="connected-led"></div>
+      </div>
+
+      <div class="app-bar-cell">
+        <button id="connect" type="button" onclick="init()">Connect</button>
+      </div>
+
+    </div>
+
+    <div id="log">
+      <div class="log-margin"></div>
+      <div id="log-content"></div>
+      <div class="log-margin"></div>
     </div>
 
     <div id="compose">
       <form action="javascript:doSend()">
         <textarea id="input-box" name="input" required></textarea>
-        <input id="submit" type="submit" value="Send">
       </form>
     </div>
   </div>
-  </div>
-  <button id="connect" type="button" onclick="init()">Connect</button>
 </body>
 
 </html>
