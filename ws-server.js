@@ -14,7 +14,7 @@ function startWsServer(wsPort) {
   })
 
   wss.on('connection', (ws) => {
-    ws.send(`Hi, \n Thanks for joining me for a chat. What are you saying?`)
+    ws.send(`Hi, \n Thanks for joining me for a chat. How are you today?`)
 
     ws.on('message', (message) => {
       console.log('received: %s', message)

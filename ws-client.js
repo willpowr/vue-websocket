@@ -4,7 +4,7 @@ let websocket
 let chat
 let inputBox
 let logContent
-let wsIsOpen
+let wsIsOpen = false
 let connectedLed
 let connectButton
 
@@ -19,13 +19,27 @@ function appendLog(element) {
   logContent.scrollTop = logContent.scrollHeight
 }
 
-function toggleConnectedLed() {
-  wsIsOpen ? connectedLed.classList.remove('on') : connectedLed.classList.add('on')
-}
 
 function toggleWsConnection() {
-  wsIsOpen ? websocket.close() : createWebsocket()
-  toggleConnectedLed()
+  
+
+  if(wsIsOpen){
+    websocket.close()
+    connectedLed.classList.remove('on')
+    inputBox.setAttribute('readonly', !wsIsOpen)
+
+  } else {
+    createWebsocket()
+    connectedLed.classList.add('on')
+    inputBox.removeAttribute('readonly')
+
+  }
+
+}
+
+function resetInput() {
+  inputBox.value = ''
+  inputBox.focus()
 }
 
 function init() {
@@ -67,10 +81,7 @@ function createWebsocket() {
   }
 }
 
-function resetInput() {
-  inputBox.value = ''
-  inputBox.focus()
-}
+
 
 function onOpen(evt) {
   writeToLog('Connected to chat')
