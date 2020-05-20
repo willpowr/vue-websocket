@@ -3,9 +3,12 @@
 
 <head>
   <link rel="stylesheet" type="text/css" href="styles.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
   <meta charset="utf-8" />
   <title>WebSocket Test Chat</title>
   <script src="./ws-client.js"></script>
+  
 </head>
 
 <body>
@@ -13,13 +16,12 @@
   <div id="chat">
 
     <div id="app-bar">
-
       <div class="app-bar-cell" id="connected-status">
         <div id="connected-led"></div>
       </div>
 
       <div class="app-bar-cell">
-        <button id="connect" type="button" onclick="init()">Connect</button>
+        <button id="connect" class="material-icons" type="button" onclick="init()" tabindex="0" role="button" aria-label="Toggle connection">chat</button>
       </div>
 
     </div>

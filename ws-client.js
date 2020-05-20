@@ -10,7 +10,7 @@ let connectButton
 
 function getTimeStamp() {
   const event = new Date(Date.now());
-  const options = { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'}; 
+  const options = { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
   return (event.toLocaleDateString(undefined, options));
 }
 
@@ -19,22 +19,21 @@ function appendLog(element) {
   logContent.scrollTop = logContent.scrollHeight
 }
 
+function setDisconnected() {
+  connectedLed.classList.remove('on')
+  inputBox.setAttribute('readonly', !wsIsOpen)
+  connectButton.innerText = 'chat'
+}
+
+function setConnected() {
+  connectedLed.classList.add('on')
+  inputBox.removeAttribute('readonly')
+  connectButton.innerText = 'close'
+  resetInput()
+}
 
 function toggleWsConnection() {
-  
-
-  if(wsIsOpen){
-    websocket.close()
-    connectedLed.classList.remove('on')
-    inputBox.setAttribute('readonly', !wsIsOpen)
-
-  } else {
-    createWebsocket()
-    connectedLed.classList.add('on')
-    inputBox.removeAttribute('readonly')
-
-  }
-
+  wsIsOpen ? websocket.close() : createWebsocket()
 }
 
 function resetInput() {
@@ -81,21 +80,16 @@ function createWebsocket() {
   }
 }
 
-
-
 function onOpen(evt) {
   writeToLog('Connected to chat')
   wsIsOpen = true
-  chat.style.display = 'table'
-  connectButton.innerText = 'Disconnect'
-  resetInput()
+  setConnected()
 }
 
 function onClose(evt) {
   writeToLog('Disconnected')
   wsIsOpen = false
-  chat.style.disabled = true
-  connectButton.innerText = 'Connect'
+  setDisconnected()
 }
 
 function onMessage(evt) {

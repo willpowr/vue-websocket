@@ -45,12 +45,16 @@ div#app-bar {
   box-shadow: 0 0 4px 0 #90ee90;
 }
 
-#connect {
+button#connect {
   border: 0;
   background: none;
   box-shadow: none;
   border-radius: 0px;
   color: white;
+}
+
+button#connect:hover {
+  opacity: .6;
 }
 
 #log {
